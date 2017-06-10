@@ -107,7 +107,7 @@ zero or one. They cannot compare equal and are compared part by part if the
 parts are equal the longer version scheme wins.
 Ex: 1.1 < 1.1.0, 1.1 != 1.1.0, 1.1 != 1.1.1
 
-11. If you don't need or want the API guarantees and another versioning scheme
+7. If you don't need or want the API guarantees and another versioning scheme
 as the promoted default Major.Minor.Patch fits better to your solutions, you
 can do that. As example if you want to do year based versions with counting
 the release number in the year, just do it. (2017.1, 2017.2, ...)
