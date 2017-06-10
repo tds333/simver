@@ -38,6 +38,7 @@ development indicator.)
 Date based release numbers as 2017.1 or 17.1 are also valid.
 
 Simple rules:
+
 - A version string has minimum one dot and up to four (1-4 ".")
 - Only numbers, numbers are equal or greater than zero (n >= 0)
 - Pre-releases are indicated by having at least one zero number. (n == 0)
