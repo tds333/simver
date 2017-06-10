@@ -1,7 +1,7 @@
 Simple Versioning
 =================
 
-This is version 1.1 of the specification.
+This is version 1.2 of the specification.
 
 The idea is based on Semantic Versioning but simpler and more flexible.
 
@@ -9,7 +9,8 @@ The idea is based on Semantic Versioning but simpler and more flexible.
 Summary
 -------
 
-The normal version scheme for a release is:
+The normal version scheme for a release is the same as for
+Semantic Versioning.
 Given a version number MAJOR.MINOR.PATCH, increment the:
 
 1. MAJOR version when you make incompatible API changes,
@@ -51,9 +52,7 @@ Introduction
 
 The idea is base on Semantic Versioning and provides another solution to
 handle versions in software projects and libraries.
-It provides a simpler way to handle versioning and also a way with more
-options to version schemes. It shows the right way and advice to the preferred
-solution.
+It provides a simpler way to handle versioning and is also more flexible.
 
 I call this system "Simple Versioning." Under this scheme, version numbers
 and the way they change convey meaning about the underlying code and what has
@@ -67,59 +66,41 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
 "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be
 interpreted as described in [RFC 2119](http://tools.ietf.org/html/rfc2119).
 
-1. Software using Simple Versioning SHOULD declare a public API. This API
-could be declared in the code itself or exist strictly in documentation.
-However it is done, it SHOULD be precise and comprehensive.
+1. A simple version has as a minimum a major and a minor version number
+(M.N) and up to major, minor, patch, build and additional build version number
+(M.N.P.B.A).
 
-2. A normal version number MUST take the form X.Y.Z where X, Y, and Z are
-non-negative integers, and MUST NOT contain leading zeros. X is the
-major version, Y is the minor version, and Z is the patch version.
+2. The most common scheme is M.N.P where M, N, and P are
+non-negative integers, and MUST NOT contain leading zeros. M is the
+major version, N is the minor version, and P is the patch version.
 Each element MUST increase numerically. For instance: 1.9.1 -> 1.10.1 -> 1.11.1.
+The API and feature garanties are the same as for Semantic Versioning 2.0.0.
 
 3. Once a versioned package has been released, the contents of that version
 MUST NOT be modified. Any modifications MUST be released as a new version.
 
-4. Major version zero (0.y.z) is for initial development. Anything MAY change
+4. Major version zero (0.N.P) is for initial development. Anything MAY change
 at any time. The public API SHOULD NOT be considered stable. A minor version
-zero (1.0.z) is for pre-releases of a major version. A patch version of zero
+zero (1.0.P) is for pre-releases of a major version. A patch version of zero
 (1.1.0) is a development version, or simple a marker for the start of the next
 development.
 
-5. Version 1.1.1 defines the public API. The way in which the version number
-is incremented after this release is dependent on this public API and how it
-changes. It is also possible to start the public API with version 1.1 and omit
-the patch number for it.
-
-6. Patch version Z (x.y.Z) MUST be incremented if only backwards
-compatible bug fixes are introduced. A bug fix is defined as an internal
-change that fixes incorrect behavior.
-
-7. Minor version Y (x.Y.z) MUST be incremented if new, backwards
-compatible functionality is introduced to the public API. It MUST be
-incremented if any public API functionality is marked as deprecated. It MAY be
-incremented if substantial new functionality or improvements are introduced
-within the private code. It MAY include patch level changes. Patch version
-MUST be reset to 1 when minor version is incremented.
-
-8. Major version X (X.y.z | X > 0) MUST be incremented if any backwards
-incompatible changes are introduced to the public API. It MAY also include minor
-and patch level changes. Patch and minor version MUST be reset to 1 when major
-version is incremented.
-
-9. A pre-release or development version is indicated by setting either one ore
-more of major, minor or patch to zero (x.y.z | x = 0 | y = 0 | z = 0).
-Ex.: 0.1.1, 1.0.1, 1.1.0, 1.1.0.12
+5. A pre-release or development version is indicated by setting either one ore
+more of major, minor, patch, build or additional build to zero
+Ex.: 0.1.1, 1.0.1, 1.1.0, 1.1.0.12, 1.2.4.0.16
 A trailing zero should be used to mark a development versions.
+(1.1.0, development after version 1.1)
 For pre-releases normally the next to last version number is set to zero.
+(1.0.5, pre-release for 1.1)
 
-10. Precedence refers to how versions are compared to each other when ordered.
+6. Precedence refers to how versions are compared to each other when ordered.
 Precedence MUST be calculated by separating the version into parts, normally
 major, minor, patch and additional build numbers.
 For comparison the version is split up into a tuple and the number is converted
 to a positive integer.
 Precedence is determined by the first difference when
 comparing each of these identifiers from left to right as follows: Major, minor,
-patch and build versions are always compared numerically.
+patch and build numbers are always compared numerically.
 Example: 1.1.1 < 2.1.1 < 2.2.1 < 2.2.2.
 If different version schemes are compared the missing part is not assumed to be
 zero or one. They cannot compare equal and are compared part by part if the
@@ -129,7 +110,7 @@ Ex: 1.1 < 1.1.0, 1.1 != 1.1.0, 1.1 != 1.1.1
 11. If you don't need or want the API guarantees and another versioning scheme
 as the promoted default Major.Minor.Patch fits better to your solutions, you
 can do that. As example if you want to do year based versions with counting
-the release number in the year, do it so. (2017.1, 2017.2, ...)
+the release number in the year, just do it. (2017.1, 2017.2, ...)
 But name it only simple versioning compatible if it mets the specifications
 of the numbering and the following definition.
 
@@ -172,8 +153,9 @@ Why Use Simple Versioning?
 --------------------------
 
 The basic idea is the same as for Semantic Versioning but eliminates
-the complicated pre-release and build specifiers. Every part is simply a
-number and a pre-release is indicated by setting one  or more numbers to zero.
+the complicated alphanumeric pre-release and build specifiers.
+Every part is simply a number and a pre-release is indicated by
+setting one or more numbers to zero.
 Simple to understand simple to detect and implement programatically.
 
 For really simple projects it allows also to have simpler schemes and
@@ -186,7 +168,7 @@ FAQ
 
 **How should I deal with revisions in the 0.y.z initial development phase?**
 
-The simplest thing to do is start your initial development release at 0.1.1
+The simplest thing to do is start your initial development release at 0.1
 and then increment the minor version for each subsequent release.
 
 **How do I know when to release 1.1?**
@@ -199,17 +181,9 @@ probably already be 1.1.
 **Doesn't this discourage rapid development and fast iteration?**
 
 Major version zero is all about rapid development. If you're changing the API
-every day you should either still be in version 0.y.z or on a separate
+every day you should either still be in version 0.N or on a separate
 development branch working on the next major version.
 
-**If even the tiniest backwards incompatible changes to the public API require a major version bump, won't I end up at version 42.1.1 very rapidly?**
-
-This is a question of responsible development and foresight. Incompatible
-changes should not be introduced lightly to software that has a lot of
-dependent code. The cost that must be incurred to upgrade can be significant.
-Having to bump major versions to release incompatible changes means you'll
-think through the impact of your changes, and evaluate the cost/benefit ratio
-involved.
 
 **Does Simple Versioning have a size limit on the version string?**
 
@@ -239,17 +213,32 @@ is_release = all(version_tuple)
 A pre-release or development release is simply:
 is_pre_release = not is_release
 
+**I need to do pre-release for a minor version is this possible?**
+
+Yes, use the build number to extend your version.
+Something like 1.4.0.1 for your first pre-release to the final minor release of
+1.5.
+
 **I need to do pre-release for a patch version is this possible?**
 
 Yes, use the additional build numbers to extend your version.
-Something like 1.4.0.1 for your first pre-release to the final patch release of
-1.4.1.
+Something like 1.4.2.0.1 for your first pre-release to the final patch
+release of 1.4.3.
+
+**I don't do pre-releases is a zero number still useful for me?**
+
+Yes it is. Use a trailing zero as your internal development marker so
+development after a release is visible in the version number.
+For example after the release of the version 2.5.2 set your version
+to 2.6.0 to mark it as development for the next major version 2.6.1.
+
 
 **Is it good practice to change version schemes often?**
 
 No, please decide a version scheme at start of your project and don't change it
 then. So if you decide with a two digits version scheme like 25.1 and not do
-patch release, stick with it.
+patch release, stick with it. But it is ok for pre-releases to use additional
+build numbers.
 
 **Are more version parts then five allowed?**
 
@@ -268,11 +257,24 @@ This is to visually mark it with a "." that it is something about a version.
 
 If you don't want to change your version scheme to get the additional build
 number for pre-releases of patches you must stick by doing only pre-releases
-for a major version. Or have only one pre-release for a minor one.
+for a major version.
 In most cases this is enough if you release early and often and do small
 minor releases with not to much new features.
-You can also skip some numbers and to pre-release with 1.2.0, 1.3.0, 1.4.0
-and a release with 1.4.1.
+
+In this case your release flow is:
+0.1.1 - initial development
+1.0.1 - first pre-release
+1.1.1 - first major release
+1.1.2 - patch release
+1.2.0 - development for next minor release
+1.2.1 - minor release
+2.0.0 - development for next major release
+2.0.1 - first pre-release for next major
+2.0.2 - second pre-release for next major
+2.1.1 - second major release
+
+You can also skip some numbers and do development pre-release with
+1.2.0, 1.3.0, 1.4.0 and a release with 1.4.1.
 
 
 **I really want to have fancy pre-release or other build specifiers?**
@@ -283,15 +285,52 @@ All this complicated specifiers are against the main goal of the this
 spec. But please think some minutes about it, your users and everyone else
 will be happy if you choose the simple to understand solution.
 
-**I need also pre-releases for my patch versions, is this possible?**
 
-Yes this is possible because up to five version parts are allowed.
-And normally you set the next to last number to zero and count with the
-last number your pre-releases.
+**I need a really simple workflow for my versions is this possible?**
 
-For example you want to do a pre-release for 2.4.2 you start your
-pre-releases with 2.4.1.0.1 and increment the last number for every
-additional pre-release. (second pre-release is then 2.4.1.0.2, ...)
+Yes, in this case you mostly use a major and minor version number and
+a patch only if needed.
+
+Simple release workflow:
+0.1 - initial development
+1.0 - pre-release for first major
+1.1 - First major version
+1.1.0 - internal development version
+1.2 - second release with first minor additions
+1.2.0 - internal development
+1.2.1 - patch for 1.2
+1.2.2 - next patch for 1.2
+1.3 - third release
+1.4 - forth release
+2.0 - pre-release for next major
+2.1 - next major release
+
+Even simpler is to do no patch release and use the trailing zero only
+as a internal development marker.
+
+
+**What is a development version?**
+
+A development version is simply a convention and is indicated by a
+trailing zero (1.1.0). Advice is to not do a pre-release of such a version.
+It can be very useful to visually mark the internal development version.
+After a release simply append ".0" to the version to mark it now I start
+the next development cycle. Before the next release remove it and increment
+the version numbers.
+
+For example:
+
+1.1.1 was first release now append ".0" as a marker
+1.1.1.0 for development of next release cycle
+1.1.2 do the patch release
+1.1.2.0 development marker
+1.2.1 next minor version
+
+In this case no pre-releases are done and the trailing zero is only used
+internally to visually mark a development version.
+If this is checked into a source control system it is clear this is a
+development branch and not for release.
+
 
 **I am in fear to do something wrong?**
 
