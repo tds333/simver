@@ -1,31 +1,48 @@
 Simple Versioning
 =================
 
-the idea is based on Semantic Versioning 2.0.0
-but simpler and more flexible.
+This is version 1.1 of the specification.
+
+The idea is based on Semantic Versioning but simpler and more flexible.
 
 
 Summary
 -------
 
-Given a version number MAJOR.MINOR.PATCH(.BUILD), increment the:
+The normal version scheme for a release is:
+Given a version number MAJOR.MINOR.PATCH, increment the:
 
 1. MAJOR version when you make incompatible API changes,
 2. MINOR version when you add functionality in a backwards-compatible
    manner, and
 3. PATCH version when you make backwards-compatible bug fixes.
 
-ans use
-4. BUILD number when you need it.
+Additionally there are two build numbers.
 
-The additional build number can be used for pre-release and
+4. BUILD number
+5. ADDBUILD number (additional build number)
+
+A pre-release or development release is indicated by having at least
+one number of a version part set to zero.
+
+The additional build numbers can be used for pre-release, development and
 extended versions if needed.
-Also simpler formats without a PATCH or MINOR version are allowed.
-Release version examples: 22, 1.14, 1.25.1, 1.2.2.1
-Pre-release version examples: 0.1, 1.0.1, 1.1.0.1
+
+Also simpler formats without a PATCH or BUILD numbers are allowed.
+Release version examples: 1.14, 1.25.1, 1.2.2.1, 1.2.2.1.2
+Pre-release version examples: 0.1, 1.0.1, 1.1.0.1, 1.2.3.0.1
 Development version indicator examples: 1.0, 1.1.0, 1.2.2.0
 (Is also a pre-release but the preferred way is to use it only as an in
 development indicator.)
+
+Date based release numbers as 2017.1 or 17.1 are also valid.
+
+Simple rules:
+- A version string has minimum one dot and up to four (1-4 ".")
+- Only numbers, numbers are equal or greater than zero (n >= 0)
+- Pre-releases are indicated by having at least one zero number. (n == 0)
+- Comparison is done by splitting the version string in a tuple of numbers
+  and comparing the tuples.
 
 
 Introduction
@@ -69,7 +86,8 @@ development.
 
 5. Version 1.1.1 defines the public API. The way in which the version number
 is incremented after this release is dependent on this public API and how it
-changes.
+changes. It is also possible to start the public API with version 1.1 and omit
+the patch number for it.
 
 6. Patch version Z (x.y.Z) MUST be incremented if only backwards
 compatible bug fixes are introduced. A bug fix is defined as an internal
@@ -95,7 +113,7 @@ For pre-releases normally the next to last version number is set to zero.
 
 10. Precedence refers to how versions are compared to each other when ordered.
 Precedence MUST be calculated by separating the version into parts, normally
-major, minor, patch and additional build number.
+major, minor, patch and additional build numbers.
 For comparison the version is split up into a tuple and the number is converted
 to a positive integer.
 Precedence is determined by the first difference when
@@ -118,10 +136,12 @@ of the numbering and the following definition.
 Backus–Naur Form Grammar for Simple Versions
 --------------------------------------------
 
-    <valid simple version> ::= <major>
-		                     | <major> "." <minor>
+::
+
+    <valid simple version> ::= <major> "." <minor>
 		                     | <major> "." <minor> "." <patch>
 		                     | <major> "." <minor> "." <patch> "." <build>
+		                     | <major> "." <minor> "." <patch> "." <build> "." <addbuild>
 
     <major> ::= <numeric identifier>
 
@@ -130,6 +150,8 @@ Backus–Naur Form Grammar for Simple Versions
     <patch> ::= <numeric identifier>
 
     <build> ::= <numeric identifier>
+
+    <addbuild> ::= <numeric identifier>
 
     <numeric identifier> ::= "0"
                            | <positive digit>
@@ -150,7 +172,7 @@ Why Use Simple Versioning?
 
 The basic idea is the same as for Semantic Versioning but eliminates
 the complicated pre-release and build specifiers. Every part is simply a
-number and a pre-release is indicated by setting one number to zero.
+number and a pre-release is indicated by setting one  or more numbers to zero.
 Simple to understand simple to detect and implement programatically.
 
 For really simple projects it allows also to have simpler schemes and
@@ -161,25 +183,25 @@ with this scheme.
 FAQ
 ---
 
-### How should I deal with revisions in the 0.y.z initial development phase?
+**How should I deal with revisions in the 0.y.z initial development phase?**
 
 The simplest thing to do is start your initial development release at 0.1.1
 and then increment the minor version for each subsequent release.
 
-### How do I know when to release 1.1.1?
+**How do I know when to release 1.1?**
 
 If your software is being used in production, it should probably already be
-1.1.1. If you have a stable API on which users have come to depend, you should
-be 1.1.1. If you're worrying a lot about backwards compatibility, you should
-probably already be 1.1.1.
+1.1. If you have a stable API on which users have come to depend, you should
+be 1.1. If you're worrying a lot about backwards compatibility, you should
+probably already be 1.1.
 
-### Doesn't this discourage rapid development and fast iteration?
+**Doesn't this discourage rapid development and fast iteration?**
 
 Major version zero is all about rapid development. If you're changing the API
 every day you should either still be in version 0.y.z or on a separate
 development branch working on the next major version.
 
-### If even the tiniest backwards incompatible changes to the public API require a major version bump, won't I end up at version 42.1.1 very rapidly?
+**If even the tiniest backwards incompatible changes to the public API require a major version bump, won't I end up at version 42.1.1 very rapidly?**
 
 This is a question of responsible development and foresight. Incompatible
 changes should not be introduced lightly to software that has a lot of
@@ -188,20 +210,20 @@ Having to bump major versions to release incompatible changes means you'll
 think through the impact of your changes, and evaluate the cost/benefit ratio
 involved.
 
-### Does Simple Versioning have a size limit on the version string?
+**Does Simple Versioning have a size limit on the version string?**
 
 No, but use good judgment. A 255 character version string is probably overkill,
 for example. Also, specific systems may impose their own limits on the size of
 the string.
 
 
-### Is there a difference between a pre-release and development version?
+**Is there a difference between a pre-release and development version?**
 
 Not really, it is more a convention to never do a pre-release with a version
 that ends with zero (1.0.0) instead use it only to mark internal development
 and also count pre-release starting from 1 as last number.
 
-### Is there a simple way to indicate a release version?
+**Is there a simple way to indicate a release version?**
 
 Yes a real simple one. Every number must be >0 to indicate a release.
 For example if you split up the version string by "." convert every part to an
@@ -216,26 +238,32 @@ is_release = all(version_tuple)
 A pre-release or development release is simply:
 is_pre_release = not is_release
 
-### I need to do pre-release for a patch version is this possible?
+**I need to do pre-release for a patch version is this possible?**
 
-Yes, use the additional buld number to extend your version.
+Yes, use the additional build numbers to extend your version.
 Something like 1.4.0.1 for your first pre-release to the final patch release of
 1.4.1.
 
-### Is it good practice to change version schemes often?
+**Is it good practice to change version schemes often?**
 
 No, please decide a version scheme at start of your project and don't change it
 then. So if you decide with a two digits version scheme like 25.1 and not do
 patch release, stick with it.
 
-### Are more version parts then four allowed?
+**Are more version parts then five allowed?**
 
-No, version have up to four parts not more. A version 1.2.3.4.5 is not allowed.
+No, version have up to five parts not more. A version 1.2.3.4.5.6 is not allowed.
 This is simply to limit it in length. Keep in mind you can increment the numbers
 to really high values if you want. So there is not really a limit in the amount
 of versions.
 
-### I am not comfortable to increase the length of parts for pre-releases?
+**Are simple digit versions allowed?**
+
+No, the minimum is to have to number parts, ex: 1.1
+A simple version with a single number, ex: 12 is not allowed.
+This is to visually mark it with a "." that it is something about a version.
+
+**I am not comfortable to increase the length of parts for pre-releases?**
 
 If you don't want to change your version scheme to get the additional build
 number for pre-releases of patches you must stick by doing only pre-releases
@@ -246,13 +274,31 @@ You can also skip some numbers and to pre-release with 1.2.0, 1.3.0, 1.4.0
 and a release with 1.4.1.
 
 
-### I really want to have fancy pre-release or other build specifiers?
+**I really want to have fancy pre-release or other build specifiers?**
 
-Hmm, this is about simple versioning avoiding this kind of stuff.
+Hmm, this is about Simple Versioning avoiding this kind of stuff.
 So please use another version scheme that solves your needs.
 All this complicated specifiers are against the main goal of the this
 spec. But please think some minutes about it, your users and everyone else
 will be happy if you choose the simple to understand solution.
+
+**I need also pre-releases for my patch versions, is this possible?**
+
+Yes this is possible because up to five version parts are allowed.
+And normally you set the next to last number to zero and count with the
+last number your pre-releases.
+
+For example you want to do a pre-release for 2.4.2 you start your
+pre-releases with 2.4.1.0.1 and increment the last number for every
+additional pre-release. (second pre-release is then 2.4.1.0.2, ...)
+
+**I am in fear to do something wrong?**
+
+Keep calm, to meet the spec not much must be done.
+Everything from 0.1 to 1.1.1.1.1 or higher positive numbers is good.
+Keep two things in mind. At a minimum one point and up to four points
+between the numbers, numbers are zero or a positive number.
+Thats it in simple words.
 
 
 About
@@ -261,6 +307,8 @@ About
 The Simple Versioning specification is authored by Wolfgang Langner.
 The main goal is to keep it simple also in implementation and for
 version comparison.
+It is simple to detect a development or pre-release version.
+It contains advice for the most common version scheme based on Semantic Versioning.
 
 
 License
