@@ -140,9 +140,9 @@ Backus–Naur Form Grammar for Simple Versions
 ::
 
     <valid simple version> ::= <major> "." <minor>
-		                     | <major> "." <minor> "." <patch>
-		                     | <major> "." <minor> "." <patch> "." <build>
-		                     | <major> "." <minor> "." <patch> "." <build> "." <addbuild>
+                             | <major> "." <minor> "." <patch>
+                             | <major> "." <minor> "." <patch> "." <build>
+                             | <major> "." <minor> "." <patch> "." <build> "." <addbuild>
 
     <major> ::= <numeric identifier>
 
