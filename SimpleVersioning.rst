@@ -1,7 +1,7 @@
 Simple Versioning
 =================
 
-This is version 1.2 of the specification.
+This is version 1.3 of the specification.
 
 The idea is based on Semantic Versioning but simpler and more flexible.
 
@@ -233,12 +233,15 @@ For example after the release of the version 2.5.2 set your version
 to 2.6.0 to mark it as development for the next major version 2.6.1.
 
 
-**Is it good practice to change version schemes often?**
+**Is it good practice to change release version schemes often?**
 
-No, please decide a version scheme at start of your project and don't change it
-then. So if you decide with a two digits version scheme like 25.1 and not do
+No, please decide a version scheme for your releases at start of your project
+and don't change it then.
+So if you decide with a two digits version scheme like 25.1 and not do
 patch release, stick with it. But it is ok for pre-releases to use additional
 build numbers.
+So for release you use a version scheme and for your pre-releases you use
+another version scheme. This is totally fine.
 
 **Are more version parts then five allowed?**
 
@@ -339,6 +342,18 @@ Everything from 0.1 to 1.1.1.1.1 or higher positive numbers is good.
 Keep two things in mind. At a minimum one point and up to four points
 between the numbers, numbers are zero or a positive number.
 Thats it in simple words.
+
+
+**Can I use the length of version numbers as indicator?**
+
+Yes you can but the main rule for pre-releases and zero still apply.
+You can make your own more restrictive conventions and do
+checks in a CI build system about the length.
+Something like for a release three version numbers are enforced to avoid
+a pre-release with a development indicator.
+Or something like a release has three numbers and a pre-release has
+five numbers.
+You can also do this by simply counting dot's.
 
 
 About
