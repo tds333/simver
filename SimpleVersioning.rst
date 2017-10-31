@@ -1,9 +1,10 @@
 Simple Versioning
 =================
 
-This is version 1.3 of the specification.
+This is version 17.10 of the specification. (Versioning date based YY.M)
 
 The idea is based on Semantic Versioning but simpler and more flexible.
+Or as an alternative on CalVer calendar based versioning.
 
 
 Summary
@@ -36,7 +37,12 @@ Development version indicator examples: 1.0, 1.1.0, 1.2.2.0
 (Is also a pre-release but the preferred way is to use it only as an in
 development indicator.)
 
-Date based release numbers as 2017.1 or 17.1 are also valid.
+As an alternative date based release numbers as 2017.1 or 17.1 are also
+valid. Also something like YY.M.D like 17.3.1 for the release at the
+date 2017/03/01 is also valid.
+Only recommendation is to specify the exact versioning scheme in the
+documentation.
+
 
 Simple rules:
 
@@ -264,17 +270,18 @@ for a major version.
 In most cases this is enough if you release early and often and do small
 minor releases with not to much new features.
 
-In this case your release flow is:
-0.1.1 - initial development
-1.0.1 - first pre-release
-1.1.1 - first major release
-1.1.2 - patch release
-1.2.0 - development for next minor release
-1.2.1 - minor release
-2.0.0 - development for next major release
-2.0.1 - first pre-release for next major
-2.0.2 - second pre-release for next major
-2.1.1 - second major release
+In this case your release flow is::
+
+  0.1.1 - initial development
+  1.0.1 - first pre-release
+  1.1.1 - first major release
+  1.1.2 - patch release
+  1.2.0 - development for next minor release
+  1.2.1 - minor release
+  2.0.0 - development for next major release
+  2.0.1 - first pre-release for next major
+  2.0.2 - second pre-release for next major
+  2.1.1 - second major release
 
 You can also skip some numbers and do development pre-release with
 1.2.0, 1.3.0, 1.4.0 and a release with 1.4.1.
@@ -294,19 +301,20 @@ will be happy if you choose the simple to understand solution.
 Yes, in this case you mostly use a major and minor version number and
 a patch only if needed.
 
-Simple release workflow:
-0.1 - initial development
-1.0 - pre-release for first major
-1.1 - First major version
-1.1.0 - internal development version
-1.2 - second release with first minor additions
-1.2.0 - internal development
-1.2.1 - patch for 1.2
-1.2.2 - next patch for 1.2
-1.3 - third release
-1.4 - forth release
-2.0 - pre-release for next major
-2.1 - next major release
+Simple release workflow::
+
+  0.1 - initial development
+  1.0 - pre-release for first major
+  1.1 - First major version
+  1.1.0 - internal development version
+  1.2 - second release with first minor additions
+  1.2.0 - internal development
+  1.2.1 - patch for 1.2
+  1.2.2 - next patch for 1.2
+  1.3 - third release
+  1.4 - forth release
+  2.0 - pre-release for next major
+  2.1 - next major release
 
 Even simpler is to do no patch release and use the trailing zero only
 as a internal development marker.
@@ -321,13 +329,13 @@ After a release simply append ".0" to the version to mark it now I start
 the next development cycle. Before the next release remove it and increment
 the version numbers.
 
-For example:
+For example::
 
-1.1.1 was first release now append ".0" as a marker
-1.1.1.0 for development of next release cycle
-1.1.2 do the patch release
-1.1.2.0 development marker
-1.2.1 next minor version
+  1.1.1 was first release now append ".0" as a marker
+  1.1.1.0 for development of next release cycle
+  1.1.2 do the patch release
+  1.1.2.0 development marker
+  1.2.1 next minor version
 
 In this case no pre-releases are done and the trailing zero is only used
 internally to visually mark a development version.
