@@ -1,23 +1,25 @@
 import itertools
+    
+LETTER_DICT = {"dev": -4, "a": -3, "b": -2, "rc": -1}
 
 def to_number(vs):
-    if vs in "abc":
-        assert len(vs) == 1
-        vn = -16 + int(vs, 16)
-    else:
-        vn = int(vs)
-    return vn
+    if vs in LETTER_DICT:
+        return LETTER_DICT[vs]
+    return int(vs)
 
 
 def is_release(vstr):
-    if "a" in vstr or "b" in vstr or "c" in vstr:
+    vc_list = vstr.split(".", 4)
+    if len(vc_list) > 3:
         return False
     return True
 
 
 def convert_version(vstr):
-    vc_list = [to_number(vs) for vs in vstr.split(".", 4)]
-    if len(vc_list) > 2 and vc_list[2] < 0: # fill up cal versions
+    vc_list = [to_number(vs) for vs in vstr.split(".")]
+    assert len(vc_list) >= 2 and len(vc_list) <= 5
+    if len(vc_list) == 4: # fill up cal versions
+        assert vc_list[2] < 0
         vc_list.insert(2, 0)
     while len(vc_list) < 5:
         vc_list.append(0)
@@ -25,7 +27,7 @@ def convert_version(vstr):
 
 
 def main():
-    versions = ["1.0.0", "1.1.0", "1.2", "17.0", "1.0.0.c.1", "1.0.c.0", "1.0.a", "1.0.0.b"]
+    versions = ["1.0.0", "1.1.0", "1.2", "1.2.dev.2", "17.0", "1.0.0.rc.1", "1.0.rc.0", "1.0.a.0", "1.0.0.b.0", "1.0.0.dev.1"]
     c_versions = []
     for vstr in versions:
         print(convert_version(vstr), "is release: ", is_release(vstr))

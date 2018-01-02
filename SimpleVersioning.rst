@@ -1,7 +1,7 @@
 Simple Versioning
 =================
 
-This is version 17.12 of the specification. (Versioning date based YY.M)
+This is version 18.1 of the specification. (Versioning date based YY.M)
 
 The idea is based on Semantic Versioning but simpler.
 Or as an alternative on CalVer calendar based versioning.
@@ -22,41 +22,46 @@ Given a version number MAJOR.MINOR.PATCH, increment the:
 Additionally there are pre release markers (optional).
 
 A pre release marker is separated with an additional dot "."
-then the marker optional another dot "." and a number.
+then the marker another dot "." and a number.
 Following pre release markers are allowed:
 
-. "a", for alpha releases.
-. "b", for beta releases.
-. "c", for release candidates.
+- "dev", for development releases
+- "a", for alpha releases.
+- "b", for beta releases.
+- "rc", for release candidates.
 
 The prerelease marker can be translated to a number to compare
-the release tuple. In this case it translates to:
-"a" ->   -6
-"b" ->   -5
-"c" ->   -4
+the release tuple. In this case it translates to::
+
+    "dev" -> -4
+    "a"   -> -3
+    "b"   -> -2
+    "rc"  -> -1
 
 To compare releases split the version string by ".", convert the
-first three to an integer the forth as a hex number to an integer
-and the fifth to an integer. Recalculate the forth with the following
-formula "-16+x" where x is the forth value converted from hex.
-If the PATCH version is missed it is asumeed to be zero "0".
+first three to an integer the forth translate to a negative integer
+and the fifth to an integer. 
+A missing PATCH number is asumed to be zero "0".
 
 To compare versions the version string is converted to a tuple
 of five fields containing only integer.
 For example::
 
     1.0.0 -> (1,0,0,0,0)
-    1.0 -> (1,0,0.0,0)
-    1.1.0.a.1 -> (1,1,0,-6,1)
-    1.1.a.2 -> (1,1,0,-6,2)
-    2.4.1.c.1 -> (2,4,1,-4,1)
-    1.2.0.a -> (1,2,0,-6, 0)
+    1.0 -> (1,0,0,0,0)
+    1.0.dev.1 -> (1,0,0,-4,1)
+    1.1.0.a.1 -> (1,1,0,-3,1)
+    1.1.a.2 -> (1,1,0,-3,2)
+    2.4.1.rc.1 -> (2,4,1,-1,1)
+    1.2.0.b.0 -> (1,2,0,-2, 0)
+    1.1.0.dev.5 -> (1,1,0,-4,5)
 
-If the forth field is < 0 then it is a pre release.
+If the forth field is < 0 then it is a pre-release.
 
 Also simpler formats without a PATCH number is allowed.
+In this case PATCH is asumed to be zero "0".
 Release version examples: 1.14, 1.25.1.
-Pre-release version examples: 0.1.a.0, 1.1.0.a.1, 1.0.0.c.3
+Pre-release version examples: 0.1.a.0, 1.1.0.a.1, 1.0.0.rc.3
 
 As an alternative date based release numbers as 2017.1 or 17.1 are also
 valid. Also something like YY.M.D like 17.3.1 for the release at the
@@ -68,10 +73,10 @@ documentation.
 Simple rules:
 
 - A version string has minimum one dot and up to four (1-4 ".")
-- Only numbers and the letters "a", "b", "c".
-- Pre-releases are indicated by having one of the letters "a", "b", "c" in it.
+- Only numbers and the letters "dev", "a", "b" and "rc".
+- Pre-releases are indicated by having one of the letters "dev", "a", "b", "rc" in it.
 - Comparison is done by splitting the version string in a tuple of numbers
-  and comparing the tuples. Letters are converted as specified.
+  and comparing the tuples. Letters are converted as specified to negativ numbers.
 
 
 Introduction
@@ -94,7 +99,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
 interpreted as described in [RFC 2119](http://tools.ietf.org/html/rfc2119).
 
 1. A simple version has as a minimum a major and a minor version number
-(M.N) and up to major, minor, patch, and a pre release specifier (Letter.Count)
+(M.N) and up to major, minor, patch, and a pre-release specifier (Letter.Count)
 (M.N.P.L.C).
 
 2. The most common scheme is M.N.P where M, N, and P are
@@ -110,16 +115,19 @@ MUST NOT be modified. Any modifications MUST be released as a new version.
 at any time. The public API SHOULD NOT be considered stable.
 
 5. A pre-release version is indicated by appending
-one of the letters "a" for alpha release, "b" for beta release or "c" for a
-release canditato and a optional number to the version string.
-Ex.: 1.1.1.a.1, 1.0.1.b.2, 1.1.0.c.1, 1.2.c.1, 1.1.1.a
+one of the letters "dev" for development releases,
+"a" for alpha release,
+"b" for beta release or
+"rc" for a release candidate and
+a number to the version string.
+Ex.: 1.1.1.dev.0, 1.1.1.a.1, 1.0.1.b.2, 1.1.0.rc.1, 1.2.rc.1
 The letters are converted to values for comparison as specified.
-"a" to -6, "b" to -5 and "c" to -4.
+"dev" to -4, "a" to -3, "b" to -2 and "rc" to -1.
 
 6. Precedence refers to how versions are compared to each other when ordered.
 Precedence MUST be calculated by separating the version into parts, normally
 major, minor, patch and additional pre release numbers.
-For comparison the first part of a version (up to a pre release indicator)
+For comparison the first part of a version (up to a pre-release indicator)
 is split up into a tuple and the number is converted to a positive integer.
 Missing numbers are considered to be zero.
 Precedence is determined by the first difference when
@@ -144,8 +152,8 @@ Backus–Naur Form Grammar for Simple Versions
 
     <valid simple version> ::= <major> "." <minor>
                              | <major> "." <minor> "." <patch>
-                             | <major> "." <minor> "." <patch> "." <letter>
-                             | <major> "." <minor> "." <patch> "." <letter> "." <count>
+                             | <major> "." <minor> "." <letters> "." <count>
+                             | <major> "." <minor> "." <patch> "." <letters> "." <count>
 
     <major> ::= <numeric identifier>
 
@@ -153,7 +161,7 @@ Backus–Naur Form Grammar for Simple Versions
 
     <patch> ::= <numeric identifier>
 
-    <letter> ::= "a" | "b" | "c"
+    <letters> ::= "dev" | "a" | "b" | "rc"
 
     <count> ::= <numeric identifier>
 
@@ -186,6 +194,11 @@ with this scheme.
 FAQ
 ---
 
+**What is the difference to Semantic versioning?**
+
+It has simpler pre-release specifiers and allows also to omit the PATCH
+number. You can see it as a refinement and simplification to Semantic versioning.
+
 **How should I deal with revisions in the 0.y.z initial development phase?**
 
 The simplest thing to do is start your initial development release at 0.1
@@ -215,7 +228,7 @@ the string.
 **Is there a difference between a pre-release and development version?**
 
 A development version is simply a pre-release and the advice is to use
-the letter "a" as indicator.
+the letters "dev" as indicator.
 
 **Is there a simple way to indicate a release version?**
 
@@ -246,13 +259,15 @@ will be happy if you choose the simple to understand solution.
 
 **What is a development version?**
 
-A development version is simply a convention. It is also a pre release
-at alpha level. Use ".a.0" as development version indicator.
+A development version is simply a convention. It is also a pre-release
+specified with "dev".
+For example use "1.0.0.dev.1" as first development version for the
+release "1.0.0".
 
 
 **Can I use the length of version numbers as indicator?**
 
-Yes you can if your your count for a pre-release is not optionl.
+Yes you can.
 So a pre-release version if split is longer than three.
 You can also do this by simply counting dot's.
 
@@ -264,6 +279,7 @@ The Simple Versioning specification is authored by Wolfgang Langner.
 The main goal is to keep it simple also in implementation and for
 version comparison.
 It is simple to detect pre-release version.
+It is clearly specified in every part.
 It contains advice for the most common version scheme based on Semantic Versioning.
 
 
