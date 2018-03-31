@@ -108,7 +108,7 @@ comparing each of these identifiers from left to right as follows: Major, minor,
 patch, build, count are always compared numerically.
 Example: 1.1.1 < 2.1.1 < 2.2.1 < 2.2.2.
 If different version schemes are compared the comparison is done
-number by number and if all are equal the longer sheme wins.
+number by number and if all are equal the longer scheme wins.
 Ex. 2.4.5 < 2.4.5.0
 
 7. If you don't need or want the API guarantees and another versioning scheme
@@ -178,12 +178,12 @@ number. You can see it as a refinement and simplification to Semantic versioning
 The simplest thing to do is start your initial development release at 0.1
 and then increment the minor version for each subsequent release.
 
-**How do I know when to release 1.0?**
+**How do I know when to release 1.1?**
 
 If your software is being used in production, it should probably already be
-1.0. If you have a stable API on which users have come to depend, you should
-be 1.0. If you're worrying a lot about backwards compatibility, you should
-probably already be 1.0.
+1.1. If you have a stable API on which users have come to depend, you should
+be 1.1. If you're worrying a lot about backwards compatibility, you should
+probably already be 1.1.
 
 **Doesn't this discourage rapid development and fast iteration?**
 
@@ -203,7 +203,7 @@ A development version is simply a pre-release.
 
 **Is there a simple way to indicate a release version?**
 
-Yes, if there is no pre zero number in it.
+Yes, if there is no pre zero number as version in it.
 
 **Is it good practice to change release version schemes often?**
 
@@ -211,6 +211,7 @@ No, please decide a version scheme for your releases at start of your project
 and don't change it then.
 So if you decide with a two digits version scheme like 25.1 and not do
 patch release, stick with it. 
+For development it is fine to use an additional zero appended.
 
 **Are simple digit versions allowed?**
 
@@ -231,9 +232,9 @@ will be happy if you choose the simple to understand solution.
 **What is a development version?**
 
 A development version is simply a convention. It is also a pre-release
-specified with zero.
-For example use "1.0.0" as first development version for the
-release "1.1.0".
+specified with a zero.
+For example use "1.1.0" as development version for the
+release "1.2".
 
 
 
